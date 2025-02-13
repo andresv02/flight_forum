@@ -16,6 +16,8 @@ export default function Home() {
             id="flightNumber"
             placeholder="AA123"
             className="flex-1 p-3 border rounded-lg text-black"
+            minLength="3"
+            maxLength="6"
           />
           <label htmlFor="departureDate" className="text-gray-700">Departure Date</label>
           <input

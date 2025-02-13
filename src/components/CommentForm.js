@@ -21,7 +21,7 @@ export default function CommentForm({ flightId, parentId = null, onCancel = () =
   return (
     <form onSubmit={handleSubmit} className="mb-8">
       <textarea
-        className="w-full p-3 border rounded-lg mb-2"
+        className="w-full p-3 border rounded-lg mb-2 text-black"
         placeholder="Share your flight experience or ask a question..."
         rows="3"
         value={commentText}
