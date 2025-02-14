@@ -24,6 +24,7 @@ export default function Home() {
             type="date"
             id="departureDate"
             className="p-3 border rounded-lg text-gray-700"
+            defaultValue={new Date().toISOString().split('T')[0]}
             min={new Date(Date.now() - 172800000).toISOString().split('T')[0]}
             max={new Date(Date.now() + 172800000).toISOString().split('T')[0]}
             //1728000 is two days in Miliseconds
