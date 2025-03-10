@@ -3,8 +3,8 @@ import { flights } from '../../../data/flights';
 import Comment from '../../../components/Comment';
 import CommentForm from '../../../components/CommentForm';
 
-export default function FlightPage({ params }) {
-  const flight = flights.find(f => 
+export default async function FlightPage({ params }) {
+  const flight = flights.find(f =>
     f.id === params.flightId
   );
 
