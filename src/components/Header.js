@@ -13,11 +13,11 @@ export default function Header() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-card shadow border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center space-x-6">
-            <Link href="/" className="text-2xl font-bold text-blue-800 flex items-center">
+            <Link href="/" className="text-2xl font-bold text-accent flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-8 w-8 mr-2"
@@ -43,18 +43,18 @@ export default function Header() {
                     <div className="flex items-center space-x-2">
                       <Link 
                         href="/profile"
-                        className="text-gray-700 hover:text-blue-800 transition"
+                        className="text-foreground/80 hover:text-accent transition"
                       >
                         Profile
                       </Link>
                       <button
                         onClick={() => setIsProfileOpen(!isProfileOpen)}
-                        className="flex items-center space-x-2 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition"
+                        className="flex items-center space-x-2 bg-accent/5 hover:bg-accent/10 px-4 py-2 rounded-lg transition"
                       >
-                        <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                        <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-accent-foreground">
                           {user.email.charAt(0).toUpperCase()}
                         </div>
-                        <span className="font-medium text-gray-700">
+                        <span className="font-medium text-foreground/80">
                           {user.email.split('@')[0]}
                         </span>
                       </button>
@@ -69,7 +69,7 @@ export default function Header() {
                 ) : (
                   <button
                     onClick={() => setIsAuthModalOpen(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg transition"
                   >
                     Sign In
                   </button>

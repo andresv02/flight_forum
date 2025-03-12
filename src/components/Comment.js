@@ -9,13 +9,13 @@ export default function Comment({ comment, depth }) {
   
   return (
     <div 
-      className={`ml-${indent} border-l-2 border-gray-200 pl-4`}
+      className={`ml-${indent} border-l-2 border-border pl-4`}
       style={{ marginLeft: `${indent}rem` }}
     >
-      <div className="bg-gray-50 p-4 rounded-lg">
+      <div className="bg-card/50 p-4 rounded-lg border border-border/50">
         <div className="flex items-center gap-2 mb-2">
-          <span className="font-medium text-gray-800">{comment.user}</span>
-          <span className="text-sm text-gray-500">
+          <span className="font-medium">{comment.user}</span>
+          <span className="text-sm text-foreground/60">
             {new Date(comment.timestamp).toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric',
@@ -24,11 +24,11 @@ export default function Comment({ comment, depth }) {
             })}
           </span>
         </div>
-        <p className="text-gray-700">{comment.text}</p>
+        <p className="text-foreground/90">{comment.text}</p>
         
         {depth < maxDepth && (
           <button
-            className="text-blue-600 text-sm mt-2 hover:underline"
+            className="text-accent text-sm mt-2 hover:underline"
             onClick={() => setShowReplyForm(!showReplyForm)}
           >
             Reply

@@ -9,18 +9,18 @@ export default async function FlightPage({ params }) {
   );
 
   return (
-    <main className="min-h-screen p-8 max-w-4xl mx-auto">
-      <Link href="/" className="text-blue-600 hover:underline mb-8 block">
+    <main className="min-h-screen p-8 max-w-4xl mx-auto bg-background text-foreground">
+      <Link href="/" className="text-accent hover:underline mb-8 block">
         ← Back to search
       </Link>
 
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+      <div className="bg-card rounded-lg shadow p-6 mb-8 border border-border">
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-3xl font-bold">
               {flight.airline} {flight.id}
             </h1>
-            <div className="mt-2 text-gray-600 grid grid-cols-2 gap-2">
+            <div className="mt-2 text-foreground/70 grid grid-cols-2 gap-2">
               <div>
                 <p>{flight.origin.city} ({flight.origin.code}) → {flight.destination.city} ({flight.destination.code})</p>
                 <p className="mt-1">Departure: {flight.origin.time} | Date: {flight.date}</p>
@@ -36,8 +36,8 @@ export default async function FlightPage({ params }) {
           </div>
         </div>
 
-        <div className="border-t pt-6">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-500">Flight Discussion</h2>
+        <div className="border-t border-border pt-6">
+          <h2 className="text-2xl font-semibold mb-4 text-foreground/60">Flight Discussion</h2>
           <CommentForm flightId={flight.id} />
 
           <div className="space-y-4 mt-6">

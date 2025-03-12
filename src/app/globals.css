@@ -3,19 +3,131 @@
 @tailwind utilities;
 
 :root {
+  /* Base colors */
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* UI Elements */
+  --card-background: #f9fafb;
+  --card-foreground: #111827;
+  --card-border: #e5e7eb;
+  
+  /* Input elements */
+  --input-background: #ffffff;
+  --input-foreground: #111827;
+  --input-border: #d1d5db;
+  --input-focus: #3b82f6;
+  
+  /* Buttons */
+  --primary-button: #3b82f6;
+  --primary-button-foreground: #ffffff;
+  --secondary-button: #f3f4f6;
+  --secondary-button-foreground: #111827;
+  
+  /* Accents */
+  --accent: #3b82f6;
+  --accent-foreground: #ffffff;
+  
+  /* Status colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+  
+  /* Dividers and borders */
+  --border: #e5e7eb;
+  --divider: #e5e7eb;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffffff;
-    --foreground: #ededed;
+.dark {
+  /* Base colors */
+  --background: #121212;
+  --foreground: #f3f4f6;
+  
+  /* UI Elements */
+  --card-background: #1f2937;
+  --card-foreground: #f9fafb;
+  --card-border: #374151;
+  
+  /* Input elements */
+  --input-background: #1f2937;
+  --input-foreground: #f9fafb;
+  --input-border: #4b5563;
+  --input-focus: #60a5fa;
+  
+  /* Buttons */
+  --primary-button: #2563eb;
+  --primary-button-foreground: #f9fafb;
+  --secondary-button: #374151;
+  --secondary-button-foreground: #f9fafb;
+  
+  /* Accents */
+  --accent: #3b82f6;
+  --accent-foreground: #f9fafb;
+  
+  /* Status colors */
+  --success: #059669;
+  --warning: #d97706;
+  --error: #dc2626;
+  --info: #2563eb;
+  
+  /* Dividers and borders */
+  --border: #374151;
+  --divider: #374151;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.9);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.9), 0 1px 2px 0 rgba(0, 0, 0, 0.9);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.9), 0 2px 4px -1px rgba(0, 0, 0, 0.9);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.9), 0 4px 6px -2px rgba(0, 0, 0, 0.9);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* Apply theme to common elements */
+input, textarea, select {
+  background-color: var(--input-background);
+  color: var(--input-foreground);
+  border-color: var(--input-border);
+}
+
+button.primary {
+  background-color: var(--primary-button);
+  color: var(--primary-button-foreground);
+}
+
+button.secondary {
+  background-color: var(--secondary-button);
+  color: var(--secondary-button-foreground);
+}
+
+.card {
+  background-color: var(--card-background);
+  color: var(--card-foreground);
+  border-color: var(--card-border);
+  box-shadow: var(--shadow);
+}
+
+.divider {
+  background-color: var(--divider);
+}
+
+.border {
+  border-color: var(--border);
 }

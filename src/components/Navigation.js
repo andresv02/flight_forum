@@ -7,14 +7,16 @@ export default function Navigation() {
   const pathname = usePathname();
   
   const isActive = (path) => {
-    return pathname === path ? 'bg-blue-100 text-blue-800' : 'text-gray-700 hover:bg-gray-100';
+    return pathname === path 
+      ? 'border-2 border-accent font-semibold text-accent rounded-lg' 
+      : 'text-foreground/80 hover:bg-accent/10 hover:text-accent transition-colors';
   };
 
   return (
     <nav className="flex space-x-1">
       <Link 
         href="/" 
-        className={`px-3 py-2 rounded-md text-sm font-medium ${isActive('/')}`}
+        className={`px-3 py-2 text-sm font-medium ${isActive('/')}`}
       >
         Home
       </Link>

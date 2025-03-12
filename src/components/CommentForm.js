@@ -21,7 +21,7 @@ export default function CommentForm({ flightId, parentId = null, onCancel = () =
   return (
     <form onSubmit={handleSubmit} className="mb-8">
       <textarea
-        className="w-full p-3 border rounded-lg mb-2 text-black"
+        className="w-full p-3 border border-input-border rounded-lg mb-2 bg-input text-input-foreground focus:border-input-focus focus:outline-none focus:ring-1 focus:ring-input-focus"
         placeholder="Share your flight experience or ask a question..."
         rows="3"
         value={commentText}
@@ -30,7 +30,7 @@ export default function CommentForm({ flightId, parentId = null, onCancel = () =
       <div className="flex gap-2">
         <button
           type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+          className="bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary/90 transition"
         >
           Post Comment
         </button>
@@ -38,7 +38,7 @@ export default function CommentForm({ flightId, parentId = null, onCancel = () =
           <button
             type="button"
             onClick={onCancel}
-            className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition"
+            className="bg-secondary text-secondary-foreground px-6 py-2 rounded-lg hover:bg-secondary/90 transition"
           >
             Cancel
           </button>
