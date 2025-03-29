@@ -7,9 +7,9 @@ export default function Navigation() {
   const pathname = usePathname();
   
   const isActive = (path) => {
-    return pathname === path 
-      ? 'border-2 border-accent font-semibold text-accent rounded-lg' 
-      : 'text-foreground/80 hover:bg-accent/10 hover:text-accent transition-colors';
+    return pathname === path
+      ? 'border-2 border-accent font-semibold text-accent rounded-md'
+      : 'border-2 border-transparent text-foreground/80 hover:bg-accent/10 hover:text-accent transition-colors';
   };
 
   return (
