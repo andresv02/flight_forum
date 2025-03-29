@@ -73,37 +73,65 @@ export function AuthProvider({ children }) {
   };
 
   // Sign up with email and password
-  const signUp = async (email, password, username, fullName) => {
+  const signUp = async (email, password) => {
     try {
       // Sign up with Supabase Auth
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
       });
-
+  
       if (error) {
         throw error;
       }
-
-      // Create user profile if signup was successful
+  
+      // Update user info in the users table
       if (data.user) {
+        // Extract the email prefix (e.g., "john" from "john@example.com")
+        let baseUsername = data.user.email.split('@')[0].toLowerCase();
+        let username = baseUsername;
+        let suffix = 1;
+  
+        // Check if the username already exists, and append a suffix if needed
+        while (true) {
+          const { data: existingUser, error: checkError } = await supabase
+            .from('users')
+            .select('id')
+            .eq('username', username)
+            .single();
+  
+          if (checkError && checkError.code !== 'PGRST116') {
+            throw checkError; // Handle unexpected errors
+          }
+  
+          if (!existingUser) {
+            break; // Username is unique, proceed with it
+          }
+  
+          // Username exists, append a suffix and try again
+          username = `${baseUsername}_${suffix}`;
+          suffix++;
+        }
+  
         const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
+          .from('users')
+          .upsert({
             id: data.user.id,
-            username: username || null,
-            full_name: fullName || null,
+            username: username, // Use the unique username
+            full_name: null,
             created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
           });
-
+  
         if (profileError) {
-          console.error('Error creating profile:', profileError);
+          console.error('Error creating/updating profile:', profileError.message, profileError.details, profileError);
+          throw profileError;
         }
       }
-
+  
       return data;
     } catch (error) {
-      console.error('Error signing up:', error);
+      console.error('Error signing up:', error.message, error.details, error);
       throw error;
     }
   };
@@ -112,9 +140,8 @@ export function AuthProvider({ children }) {
   const signOut = async () => {
     try {
       const { error } = await supabase.auth.signOut();
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
+      setUser(null);
     } catch (error) {
       console.error('Error signing out:', error);
       throw error;
@@ -122,45 +149,40 @@ export function AuthProvider({ children }) {
   };
 
   // Get user profile
-  const getUserProfile = async (userId) => {
+  const getUserProfile = async () => {
+    if (!user) return null;
+    
     try {
       const { data, error } = await supabase
-        .from('profiles')
+        .from('users')
         .select('*')
-        .eq('id', userId)
+        .eq('id', user.id)
         .single();
 
-      if (error) {
-        throw error;
-      }
-
+      if (error) throw error;
       return data;
     } catch (error) {
-      console.error('Error getting user profile:', error);
+      console.error('Error getting profile:', error);
       throw error;
     }
   };
 
   // Update user profile
-  const updateUserProfile = async (userId, updates) => {
+  const updateUserProfile = async (updates) => {
+    if (!user) return null;
+    
     try {
       const { data, error } = await supabase
-        .from('profiles')
-        .update({
-          ...updates,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', userId)
+        .from('users')
+        .update(updates)
+        .eq('id', user.id)
         .select()
         .single();
 
-      if (error) {
-        throw error;
-      }
-
+      if (error) throw error;
       return data;
     } catch (error) {
-      console.error('Error updating user profile:', error);
+      console.error('Error updating profile:', error);
       throw error;
     }
   };

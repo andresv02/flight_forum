@@ -15,35 +15,80 @@ export default function UserProfile() {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  // Fetch user profile on component mount
-  useEffect(() => {
-    if (user) {
-      fetchProfile();
-    } else {
-      setLoading(false);
-    }
-  }, [user, fetchProfile]);
-
   // Fetch user profile from Supabase
   const fetchProfile = useCallback(async () => {
     try {
       setLoading(true);
       
-      const { data, error } = await supabase
-        .from('profiles')
+      // First try to get existing profile
+      let { data, error } = await supabase
+        .from('users')
         .select('*')
         .eq('id', user.id)
         .single();
-      
-      if (error) throw error;
+
+      // If no profile exists, create one
+      if (error?.code === 'PGRST116' || !data) { // PGRST116 = resource not found
+        // Extract the email prefix (e.g., "john" from "john@example.com")
+        let baseUsername = user.email.split('@')[0].toLowerCase();
+        let username = baseUsername;
+        let suffix = 1;
+
+        // Check if the username already exists, and append a suffix if needed
+        while (true) {
+          const { data: existingUser, error: checkError } = await supabase
+            .from('users')
+            .select('id')
+            .eq('username', username)
+            .single();
+
+          if (checkError && checkError.code !== 'PGRST116') {
+            throw checkError; // Handle unexpected errors
+          }
+
+          if (!existingUser) {
+            break; // Username is unique, proceed with it
+          }
+
+          // Username exists, append a suffix and try again
+          username = `${baseUsername}_${suffix}`;
+          suffix++;
+        }
+
+        const { data: newProfile, error: createError } = await supabase
+          .from('users')
+          .insert({
+            id: user.id,
+            username: username, // Use the unique username
+            full_name: null,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          })
+          .select()
+          .single();
+
+        if (createError) throw createError;
+        data = newProfile;
+      } else if (error) {
+        throw error;
+      }
       
       setProfile(data);
       setUsername(data?.username || '');
       setFullName(data?.full_name || '');
     } catch (error) {
-      console.error('Error fetching profile:', error);
-      setError('Failed to load profile');
+      console.error('Error fetching profile:', error.message, error.details, error);
+      setError('Failed to load profile. Please refresh the page.');
     } finally {
+      setLoading(false);
+    }
+  }, [user]);
+
+  // Fetch user profile on component mount
+  useEffect(() => {
+    if (user) {
+      fetchProfile();
+    } else {
       setLoading(false);
     }
   }, [user]);
@@ -56,6 +101,23 @@ export default function UserProfile() {
     setUpdating(true);
     
     try {
+      // Check if the new username is unique (if it’s changed)
+      if (username !== profile.username) {
+        const { data: existingUser, error: checkError } = await supabase
+          .from('users')
+          .select('id')
+          .eq('username', username)
+          .single();
+
+        if (checkError && checkError.code !== 'PGRST116') {
+          throw checkError;
+        }
+
+        if (existingUser && existingUser.id !== user.id) {
+          throw new Error('Username is already taken. Please choose a different one.');
+        }
+      }
+
       const updates = {
         username,
         full_name: fullName,
@@ -63,7 +125,7 @@ export default function UserProfile() {
       };
       
       const { data, error } = await supabase
-        .from('profiles')
+        .from('users')
         .update(updates)
         .eq('id', user.id)
         .select()
@@ -75,8 +137,8 @@ export default function UserProfile() {
       setMessage('Profile updated successfully');
       setIsEditing(false);
     } catch (error) {
-      console.error('Error updating profile:', error);
-      setError('Failed to update profile');
+      console.error('Error updating profile:', error.message, error.details, error);
+      setError(error.message || 'Failed to update profile');
     } finally {
       setUpdating(false);
     }

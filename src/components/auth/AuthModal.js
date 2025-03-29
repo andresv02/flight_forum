@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext'; // Import useAuth to access signUp and signIn
 import { supabase } from '../../supabaseClient';
 
 export default function AuthModal({ isOpen, onClose }) {
+  const { signUp, signIn } = useAuth(); // Add this to use the signUp and signIn methods from AuthContext
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,22 +22,12 @@ export default function AuthModal({ isOpen, onClose }) {
 
     try {
       if (isSignUp) {
-        // Sign up with email and password
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-        });
-
-        if (error) throw error;
+        // Use signUp from useAuth instead of directly calling supabase.auth.signUp
+        await signUp(email, password); // Note: username and fullName are not collected yet
         setMessage('Check your email for the confirmation link!');
       } else {
-        // Sign in with email and password
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (error) throw error;
+        // Use signIn from useAuth instead of directly calling supabase.auth.signInWithPassword
+        await signIn(email, password);
         onClose(); // Close modal on successful sign in
       }
     } catch (error) {
