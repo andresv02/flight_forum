@@ -91,12 +91,12 @@ export default function SearchPage() {
               
               <div>
                 <label htmlFor="date" className="block mb-1">
-                  Date (Optional)
+                  Date
                 </label>
                 <input
                   id="date"
                   type="date"
-                  className="w-full p-3 border border-input-border rounded-lg bg-input text-input-foreground focus:border-input-focus focus:outline-none focus:ring-1 focus:ring-input-focus"
+                  className="w-full p-3 border border-input-border rounded-lg bg-input text-input-foreground focus:border-input-focus focus:outline-none focus:ring-1 focus:ring-input-focus dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:[&::-webkit-calendar-picker-indicator]:filter dark:[&::-webkit-calendar-picker-indicator]:invert"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                 />
@@ -124,6 +124,7 @@ export default function SearchPage() {
             <h2 className="text-2xl font-semibold mb-4">Search Results</h2>
             
             <div className="space-y-4">
+              {console.log('Flight data:', searchResults)}
               {searchResults.map((flight) => (
                 <div
                   key={`${flight.flightNumber}-${flight.date}`}
@@ -145,6 +146,9 @@ export default function SearchPage() {
                         <div>
                           <p className="text-xs text-foreground/60">Arrival</p>
                           <p>{flight.arrivalTime}</p>
+                          {flight.estimatedArrivalTime && (
+                            <p className="text-xs text-foreground/60">Est: {flight.estimatedArrivalTime}</p>
+                          )}
                         </div>
                       </div>
                     </div>

@@ -4,8 +4,12 @@ export const flights = [
     id: 'AA123',
     date: '2025-01-30',
     airline: 'American Airlines',
-    origin: { code: 'JFK', city: 'New York', time: '09:00' },
-    destination: { code: 'LAX', city: 'Los Angeles', time: '12:00' },
+    origin: { code: 'JFK', city: 'New York', time: '09:00', terminal: '2' },
+    destination: { code: 'LAX', city: 'Los Angeles', time: '12:00', estimatedTime: '12:15', terminal: '4' },
+    status: 'Scheduled',
+    scheduledDeparture: '2025-02-15 10:00',
+    actualDeparture: '2025-02-15 10:00',
+    delay: 0,
     comments: [
       {
         id: 1,

@@ -167,9 +167,9 @@ export default function UserProfile() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Your Profile</h2>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Your Profile</h2>
         <button
           onClick={handleSignOut}
           className="text-red-600 hover:text-red-800"
@@ -179,13 +179,13 @@ export default function UserProfile() {
       </div>
 
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <div className="bg-red-100 dark:bg-red-900 dark:bg-opacity-20 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4">
           {error}
         </div>
       )}
 
       {message && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <div className="bg-green-100 dark:bg-green-900 dark:bg-opacity-20 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-300 px-4 py-3 rounded mb-4">
           {message}
         </div>
       )}
@@ -193,19 +193,19 @@ export default function UserProfile() {
       {isEditing ? (
         <form onSubmit={updateProfile} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-gray-700 mb-1">
+            <label htmlFor="email" className="block text-gray-700 dark:text-gray-200 mb-1">
               Email
             </label>
             <input
-              id="email"
-              type="email"
-              value={user.email}
-              disabled
-              className="w-full p-2 border rounded bg-gray-100 text-black"
-            />
+                          id="email"
+                          type="email"
+                          value={user.email}
+                          disabled
+                          className="w-full p-2 border rounded bg-gray-100 text-black dark:text-white dark:bg-gray-700 dark:border-gray-600"
+                        />
           </div>
           <div>
-            <label htmlFor="username" className="block text-gray-700 mb-1">
+            <label htmlFor="username" className="block text-gray-700 dark:text-gray-200 mb-1">
               Username
             </label>
             <input
@@ -213,11 +213,11 @@ export default function UserProfile() {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-2 border rounded text-black"
+              className="w-full p-2 border rounded text-black dark:text-white dark:bg-gray-700 dark:border-gray-600"
             />
           </div>
           <div>
-            <label htmlFor="fullName" className="block text-gray-700 mb-1">
+            <label htmlFor="fullName" className="block text-gray-700 dark:text-gray-200 mb-1">
               Full Name
             </label>
             <input
@@ -225,7 +225,7 @@ export default function UserProfile() {
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full p-2 border rounded text-black"
+              className="w-full p-2 border rounded text-black dark:text-white dark:bg-gray-700 dark:border-gray-600"
             />
           </div>
           <div className="flex gap-2">
@@ -252,16 +252,16 @@ export default function UserProfile() {
       ) : (
         <div className="space-y-4">
           <div>
-            <p className="text-gray-500">Email</p>
-            <p className="font-medium">{user.email}</p>
+            <p className="text-gray-500 dark:text-gray-300">Email</p>
+            <p className="font-medium break-all">{user.email}</p>
           </div>
           <div>
-            <p className="text-gray-500">Username</p>
-            <p className="font-medium">{profile?.username || 'Not set'}</p>
+            <p className="text-gray-500 dark:text-gray-300">Username</p>
+            <p className="font-medium break-all">{profile?.username || 'Not set'}</p>
           </div>
           <div>
-            <p className="text-gray-500">Full Name</p>
-            <p className="font-medium">{profile?.full_name || 'Not set'}</p>
+            <p className="text-gray-500 dark:text-gray-300">Full Name</p>
+            <p className="font-medium break-all">{profile?.full_name || 'Not set'}</p>
           </div>
           <button
             onClick={() => setIsEditing(true)}

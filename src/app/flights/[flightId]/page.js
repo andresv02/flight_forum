@@ -24,13 +24,19 @@ export default async function FlightPage({ params }) {
               <div>
                 <p>{flight.origin.city} ({flight.origin.code}) → {flight.destination.city} ({flight.destination.code})</p>
                 <p className="mt-1">Departure: {flight.origin.time} | Date: {flight.date}</p>
+                <p className="mt-1">Flight Status: {flight.status}</p>
+                {flight.delay > 0 && (
+                  <p className="mt-1">Delay: {flight.delay} minutes</p>
+                )}
               </div>
               <div>
-                <p>Flight Status: Scheduled</p>
-                <p>Actual Departure Date: 2025-02-15 10:00</p>
-                <p>Scheduled Departure Date: 2025-02-15 10:00</p>
-                <p>Departure Terminal: 2</p>
-                <p>Delay: 0 minutes</p>
+                <p>Actual Departure: {flight.actualDeparture}</p>
+                <p>Scheduled Departure: {flight.scheduledDeparture}</p>
+                <p>Departure Terminal: {flight.origin.terminal}</p>
+                <p>Arrival Terminal: {flight.destination.terminal}</p>
+                {flight.destination.estimatedTime && (
+                  <p>Estimated Arrival: {flight.destination.estimatedTime}</p>
+                )}
               </div>
             </div>
           </div>
